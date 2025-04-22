@@ -2,6 +2,7 @@ package com.jountain.demo.service.product;
 
 import com.jountain.demo.model.Product;
 import com.jountain.demo.request.AddProductRequest;
+import com.jountain.demo.request.UpdateProductRequest;
 
 import java.util.List;
 
@@ -9,7 +10,8 @@ public interface IProductService {
     Product addProduct(AddProductRequest addProductRequest);
     Product getProductById(Long id);
     void deleteProductById(Long id);
-    Product updateProduct(Product product, Long productId);
+
+    Product updateProduct(UpdateProductRequest request, Long productId);
 
     List<Product> getAllProducts();
     List<Product> getProductsByCategory(String category);

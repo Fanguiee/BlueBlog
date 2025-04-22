@@ -8,7 +8,6 @@ import com.jountain.demo.repository.ProductRepository;
 import com.jountain.demo.request.AddProductRequest;
 import com.jountain.demo.request.UpdateProductRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,12 +56,26 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product updateProduct(UpdateProductRequest request) {
+    public Product updateProduct(UpdateProductRequest request, Long productId) {
         //look for the product
         //if found, update it
-        //else, do nothing
+        //else throw exception
+        return productRepository.findById(productId)
+                .map(product -> updateExistingProduct(product,request))
+                .map(productRepository::save)
+                .orElseThrow(()->new ProductNotFoundException("Product not found!"));
+    }
 
-        return null;
+    private Product updateExistingProduct( Product existingProduct,UpdateProductRequest request) {
+        existingProduct.setName(request.getName());
+        existingProduct.setBrand(request.getBrand());
+        existingProduct.setPrice(request.getPrice());
+        existingProduct.setDescription(request.getDescription());
+        existingProduct.setInventory(request.getInventory());
+
+        Category category = categoryRepository.findByName(request.getCategory().getName());
+        existingProduct.setCategory(category);
+        return existingProduct;
     }
 
     @Override
