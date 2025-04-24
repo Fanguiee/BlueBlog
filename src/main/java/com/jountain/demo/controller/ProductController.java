@@ -37,7 +37,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/product/by/BrandAndName}")
+    @GetMapping("/product/by/BrandAndName")
     public ResponseEntity<ApiResponse> getProductByBrandAndName(@RequestParam String productBrand, @RequestParam String productName) {
         try {
             List<Product> products = productService.getProductsByBrandAndName(productBrand,productName);
@@ -50,7 +50,7 @@ public class ProductController {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
     }
-    @GetMapping("/count/by/BrandAndName}")
+    @GetMapping("/count/by/BrandAndName")
     public ResponseEntity<ApiResponse> countProductByBrandAndName(@RequestParam String productBrand, @RequestParam String productName) {
         try {
             var productCount = productService.countProductsByBrandAndName(productBrand,productName);
