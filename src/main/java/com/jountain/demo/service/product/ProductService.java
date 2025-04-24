@@ -34,14 +34,14 @@ public class ProductService implements IProductService {
     }
 
     private Product createProduct(AddProductRequest request, Category category) {
-    return new Product(
-            request.getName(),
-            request.getBrand(),
-            request.getPrice(),
-            request.getDescription(),
-            request.getInventory(),
-            category
-    );
+        return new Product(
+                request.getName(),
+                request.getBrand(),
+                request.getPrice(),
+                request.getDescription(),
+                request.getInventory(),
+                category
+        );
     }
     @Override
     public Product getProductById(Long id) {
