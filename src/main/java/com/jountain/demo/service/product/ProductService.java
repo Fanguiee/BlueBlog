@@ -1,6 +1,6 @@
 package com.jountain.demo.service.product;
 
-import com.jountain.demo.exceptions.ProductNotFoundException;
+import com.jountain.demo.exceptions.ResourceNotFoundException;
 import com.jountain.demo.model.Category;
 import com.jountain.demo.model.Product;
 import com.jountain.demo.repository.CategoryRepository;
@@ -46,13 +46,13 @@ public class ProductService implements IProductService {
     @Override
     public Product getProductById(Long id) {
         return productRepository.findById(id)
-                .orElseThrow(()->new ProductNotFoundException("Product not found!"));
+                .orElseThrow(()->new ResourceNotFoundException("Product not found!"));
     }
 
     @Override
     public void deleteProductById(Long id) {
         productRepository.findById(id).ifPresentOrElse(productRepository::delete,
-                ()->{throw  new ProductNotFoundException("Product not found!");});
+                ()->{throw  new ResourceNotFoundException("Product not found!");});
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ProductService implements IProductService {
         return productRepository.findById(productId)
                 .map(product -> updateExistingProduct(product,request))
                 .map(productRepository::save)
-                .orElseThrow(()->new ProductNotFoundException("Product not found!"));
+                .orElseThrow(()->new ResourceNotFoundException("Product not found!"));
     }
 
     private Product updateExistingProduct( Product existingProduct,UpdateProductRequest request) {
@@ -99,12 +99,12 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> getProductByName(String name) {
+    public List<Product> getProductsByName(String name) {
         return productRepository.findByName(name);
     }
 
     @Override
-    public List<Product> getProductByBrandAndName(String brand, String name) {
+    public List<Product> getProductsByBrandAndName(String brand, String name) {
         return productRepository.findByBrandAndName(brand,name);
     }
 
