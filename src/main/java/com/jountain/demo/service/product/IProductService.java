@@ -1,5 +1,6 @@
 package com.jountain.demo.service.product;
 
+import com.jountain.demo.dto.ProductDto;
 import com.jountain.demo.model.Product;
 import com.jountain.demo.request.AddProductRequest;
 import com.jountain.demo.request.UpdateProductRequest;
@@ -20,5 +21,7 @@ public interface IProductService {
     List<Product> getProductsByName(String name);
     List<Product> getProductsByBrandAndName(String brand, String name);
     Long countProductsByBrandAndName(String brand, String name);
+
+    ProductDto convertToDto(Product product);
 }
 

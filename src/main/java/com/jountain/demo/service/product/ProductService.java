@@ -1,13 +1,19 @@
 package com.jountain.demo.service.product;
 
+import com.jountain.demo.dto.ImageDto;
+import com.jountain.demo.dto.ProductDto;
+import com.jountain.demo.utils.ListUtils;
 import com.jountain.demo.exceptions.ResourceNotFoundException;
 import com.jountain.demo.model.Category;
+import com.jountain.demo.model.Image;
 import com.jountain.demo.model.Product;
 import com.jountain.demo.repository.CategoryRepository;
+import com.jountain.demo.repository.ImageRepository;
 import com.jountain.demo.repository.ProductRepository;
 import com.jountain.demo.request.AddProductRequest;
 import com.jountain.demo.request.UpdateProductRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +24,8 @@ import java.util.Optional;
 public class ProductService implements IProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
+    private final ImageRepository imageRepository;
 
     @Override
     public Product addProduct(AddProductRequest request) {
@@ -111,5 +119,13 @@ public class ProductService implements IProductService {
     @Override
     public Long countProductsByBrandAndName(String brand, String name) {
         return productRepository.countByBrandAndName(brand,name);
+    }
+    @Override
+    public ProductDto convertToDto(Product product) {
+        ProductDto productDto = modelMapper.map(product, ProductDto.class);
+        List<Image> images = imageRepository.findByProductId(product.getId());
+        List<ImageDto> imageDto = ListUtils.mapList(images, image -> modelMapper.map(image, ImageDto.class));
+        productDto.setImages(imageDto);
+        return productDto;
     }
 }

@@ -40,7 +40,7 @@ public class ImageService implements IImageService{
         for (MultipartFile file : files) {
             try{
                 Image image = new Image();
-                image.setFileType(file.getOriginalFilename());
+                image.setFileName(file.getOriginalFilename());
                 image.setFileType(file.getContentType());
                 image.setImage(new SerialBlob(file.getBytes()));
                 image.setProduct(product);
@@ -54,8 +54,8 @@ public class ImageService implements IImageService{
                 imageRepository.save(savedImage);
 
                 ImageDto imageDto = new ImageDto();
-                imageDto.setImageId(savedImage.getId());
-                imageDto.setImageName(savedImage.getFileName());
+                imageDto.setId(savedImage.getId());
+                imageDto.setFileName(savedImage.getFileName());
                 imageDto.setDownloadUrl(savedImage.getDownloadUrl());
                 savedImageDtos.add(imageDto);
             }catch (IOException | SQLException e) {
