@@ -49,7 +49,6 @@ public class CartItemService implements ICartItemService {
         CartItem cartItemToRemove= getItemInCart(cartId,productId);
         cart.removeItem(cartItemToRemove);
         cartRepository.save(cart);
-
     }
 
     @Override
