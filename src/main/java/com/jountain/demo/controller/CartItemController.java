@@ -4,6 +4,7 @@ import com.jountain.demo.exceptions.ResourceNotFoundException;
 import com.jountain.demo.model.CartItem;
 import com.jountain.demo.response.ApiResponse;
 import com.jountain.demo.service.cart.ICartItemService;
+import com.jountain.demo.service.cart.ICartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CartItemController {
     private final ICartItemService cartItemService;
+    private final ICartService cartService;
 
-    @PostMapping("/add/cart/{cartId}/product/{productId}")
-    public ResponseEntity<ApiResponse> addItemToCart(@PathVariable Long cartId, @PathVariable Long productId, @RequestParam Integer quantity) {
+    @PostMapping("/add/product/")
+    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long cartId, @RequestParam Long productId, @RequestParam Integer quantity) {
         try {
+            if(cartId == null) {
+                cartId = cartService.initializeCart();
+            }
             cartItemService.addItemToCart(cartId, productId, quantity);
             return ResponseEntity.ok(new ApiResponse("addItemToCart",null));
         } catch (ResourceNotFoundException e) {
@@ -33,7 +38,6 @@ public class CartItemController {
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
         }
-
     }
 
     @PutMapping("/cart/{cartId}/product/{productId}")

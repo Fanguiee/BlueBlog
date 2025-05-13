@@ -18,7 +18,6 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RequiredArgsConstructor
 public class CartController {
     private final ICartService cartService;
-    private final CartItemService cartItemService;
 
     @GetMapping("/{cartId}/cart")
     public ResponseEntity<ApiResponse> getCart(@PathVariable Long cartId) {
