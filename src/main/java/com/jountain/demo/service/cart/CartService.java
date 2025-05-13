@@ -13,9 +13,9 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 @RequiredArgsConstructor
 public class CartService implements ICartService {
-    private CartRepository cartRepository;
-    private CartItemRepository cartItemRepository;
-    private AtomicLong cartIdGenerator = new AtomicLong(0);
+    private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
+    private final AtomicLong cartIdGenerator = new AtomicLong(0);
     //TODO: delete get, setTotalAmount.
     @Override
     public Cart getCart(Long id) {

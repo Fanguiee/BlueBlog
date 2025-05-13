@@ -18,7 +18,7 @@ public class CartItemController {
     private final ICartService cartService;
 
     @PostMapping("/add/product/")
-    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long cartId, @RequestParam Long productId, @RequestParam Integer quantity) {
+    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam(required = false) Long cartId, @RequestParam Long productId, @RequestParam Integer quantity) {
         try {
             if(cartId == null) {
                 cartId = cartService.initializeCart();
