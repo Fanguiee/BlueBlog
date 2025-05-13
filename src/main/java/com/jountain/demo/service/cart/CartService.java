@@ -13,8 +13,8 @@ import java.math.BigDecimal;
 @Service
 @RequiredArgsConstructor
 public class CartService implements ICartService {
-    private CartRepository cartRepository;
-    private CartItemRepository cartItemRepository;
+    private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
 
     //TODO: delete get, setTotalAmount.
     @Override
