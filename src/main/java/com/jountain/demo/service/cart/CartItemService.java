@@ -61,12 +61,10 @@ public class CartItemService implements ICartItemService {
                 .findFirst()
                 .ifPresent(item->{
                     item.setQuantity(quantity);
-                    item.setUnitPrice(productService.getProductById(productId).getPrice());
                     item.setTotalPrice();
                     cartItemRepository.save(item);
                 });
-        BigDecimal totalAmount = cart.getTotalAmount(); //TODO: try to remove this.
-        cart.setTotalAmount(totalAmount);
+        cart.updateTotalAmount();
         cartRepository.save(cart);
     }
 

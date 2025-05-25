@@ -32,7 +32,7 @@ public class Cart {
         item.setCart(null);
         updateTotalAmount();
     }
-    private void updateTotalAmount() {
+    public void updateTotalAmount() {
         this.totalAmount = items.stream()
                 .map(item->{
                             BigDecimal unitPrice = item.getUnitPrice();
