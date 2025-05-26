@@ -2,9 +2,9 @@ package com.jountain.demo.service.cart;
 
 import com.jountain.demo.exceptions.ResourceNotFoundException;
 import com.jountain.demo.model.Cart;
-import com.jountain.demo.model.CartItem;
 import com.jountain.demo.repository.CartItemRepository;
 import com.jountain.demo.repository.CartRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +26,7 @@ public class CartService implements ICartService {
         return cartRepository.save(cart);
     }
 
+    @Transactional
     @Override
     public void clearCart(Long id) {
         Cart cart = getCart(id);
@@ -38,5 +39,10 @@ public class CartService implements ICartService {
     public BigDecimal getTotalPrice(Long id) {
         Cart cart = getCart(id);
         return cart.getTotalAmount();
+    }
+
+    @Override
+    public Cart getCartByUserId(Long userId) {
+        return cartRepository.findByUserId(userId);
     }
 }

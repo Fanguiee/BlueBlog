@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 @Data
-public class UpdateProductRequest {
+public class ProductUpdateRequest {
     private Long id;
     private String name;
     private String brand;

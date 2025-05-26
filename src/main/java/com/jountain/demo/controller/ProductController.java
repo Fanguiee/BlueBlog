@@ -3,8 +3,8 @@ package com.jountain.demo.controller;
 import com.jountain.demo.dto.ProductDto;
 import com.jountain.demo.exceptions.ResourceNotFoundException;
 import com.jountain.demo.model.Product;
-import com.jountain.demo.request.AddProductRequest;
-import com.jountain.demo.request.UpdateProductRequest;
+import com.jountain.demo.request.ProductAddRequest;
+import com.jountain.demo.request.ProductUpdateRequest;
 import com.jountain.demo.response.ApiResponse;
 import com.jountain.demo.service.product.IProductService;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest product) {
+    public ResponseEntity<ApiResponse> addProduct(@RequestBody ProductAddRequest product) {
         try {
             Product theProduct = productService.addProduct(product);
             ProductDto productDto = productService.convertToDto(theProduct);
@@ -52,7 +52,7 @@ public class ProductController {
     }
 
     @PutMapping("/product/{productId}/update")
-    public  ResponseEntity<ApiResponse> updateProduct(@RequestBody UpdateProductRequest request, @PathVariable Long productId) {
+    public  ResponseEntity<ApiResponse> updateProduct(@RequestBody ProductUpdateRequest request, @PathVariable Long productId) {
         try {
             Product theProduct = productService.updateProduct(request, productId);
             ProductDto productDto = productService.convertToDto(theProduct);

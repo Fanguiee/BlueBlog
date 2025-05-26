@@ -9,8 +9,8 @@ import com.jountain.demo.model.Product;
 import com.jountain.demo.repository.CategoryRepository;
 import com.jountain.demo.repository.ImageRepository;
 import com.jountain.demo.repository.ProductRepository;
-import com.jountain.demo.request.AddProductRequest;
-import com.jountain.demo.request.UpdateProductRequest;
+import com.jountain.demo.request.ProductAddRequest;
+import com.jountain.demo.request.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class ProductService implements IProductService {
     private final ImageRepository imageRepository;
 
     @Override
-    public Product addProduct(AddProductRequest request) {
+    public Product addProduct(ProductAddRequest request) {
         // check if the category is found in the DB
         // If Yes, set it as the new product category
         // If No, the save it as a new category
@@ -41,7 +41,7 @@ public class ProductService implements IProductService {
         return productRepository.save(createProduct(request, category));
     }
 
-    private Product createProduct(AddProductRequest request, Category category) {
+    private Product createProduct(ProductAddRequest request, Category category) {
         return new Product(
                 request.getName(),
                 request.getBrand(),
@@ -67,14 +67,14 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product updateProduct(UpdateProductRequest request, Long productId) {
+    public Product updateProduct(ProductUpdateRequest request, Long productId) {
         return productRepository.findById(productId)
                 .map(existingProduct -> updateExistingProduct(existingProduct,request))
                 .map(productRepository :: save)
                 .orElseThrow(()-> new ResourceNotFoundException("Product not found!"));
     }
 
-    private Product updateExistingProduct(Product existingProduct, UpdateProductRequest request) {
+    private Product updateExistingProduct(Product existingProduct, ProductUpdateRequest request) {
         existingProduct.setName(request.getName());
         existingProduct.setBrand(request.getBrand());
         existingProduct.setPrice(request.getPrice());

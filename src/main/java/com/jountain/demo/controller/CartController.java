@@ -30,6 +30,7 @@ public class CartController {
         }
     }
 
+
     @DeleteMapping("/{cartId}/clear")
     public ResponseEntity<ApiResponse> clearCart(@PathVariable Long cartId) {
         cartService.clearCart(cartId);

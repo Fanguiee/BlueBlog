@@ -1,5 +1,6 @@
 package com.jountain.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,9 +19,16 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private BigDecimal totalAmount=BigDecimal.ZERO;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonManagedReference
     private Set<CartItem> items;
+
+    private BigDecimal totalAmount=BigDecimal.ZERO;
 
     public void addItem(CartItem item) {
         this.items.add(item);
