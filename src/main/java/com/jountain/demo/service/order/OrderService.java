@@ -11,6 +11,7 @@ import com.jountain.demo.repository.ProductRepository;
 import com.jountain.demo.service.cart.CartService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -25,6 +26,7 @@ public class OrderService implements IOrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final CartService cartService;
+    private final ModelMapper modelMapper;
 
     @Transactional
     @Override
