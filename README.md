@@ -3,6 +3,7 @@
 Welcome!
 This is a fully functional backend for an online shop, built with modern Java technologies.
 A hands-on project to demonstrate my skills as a Java Backend Developer 💻🚀
+
 ⚙️ Tech Stack
 
     ☕ Java 17
