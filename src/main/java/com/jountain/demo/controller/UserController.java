@@ -37,7 +37,8 @@ public class UserController {
     public ResponseEntity<ApiResponse> createUser(@RequestBody UserCreateRequest request){
         try {
             User user = userService.createUser(request);
-            return ResponseEntity.ok(new ApiResponse("Create User Success", user));
+            UserDto userDto = userService.convertUserToUserDto(user);
+            return ResponseEntity.ok(new ApiResponse("Create User Success", userDto));
         } catch (AlreadyExistsException e) {
             return ResponseEntity.status(CONFLICT).body(new ApiResponse(e.getMessage(), null));
         }
