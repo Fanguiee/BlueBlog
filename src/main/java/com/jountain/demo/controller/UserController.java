@@ -8,9 +8,7 @@ import com.jountain.demo.request.UserCreateRequest;
 import com.jountain.demo.request.UserUpdateRequest;
 import com.jountain.demo.response.ApiResponse;
 import com.jountain.demo.service.user.IUserService;
-import com.jountain.demo.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +24,8 @@ public class UserController {
     @GetMapping("/{userId}/user")
     public ResponseEntity<ApiResponse> getUser(@PathVariable Long userId){
         try {
-            UserDto userDto = userService.getUserById(userId);
+            User user = userService.getUserById(userId);
+            UserDto userDto = userService.convertUserToUserDto(user);
             return ResponseEntity.ok(new ApiResponse("Get User Success", userDto));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));

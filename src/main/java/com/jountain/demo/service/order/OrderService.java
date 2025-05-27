@@ -1,7 +1,6 @@
 package com.jountain.demo.service.order;
 
 import com.jountain.demo.dto.OrderDto;
-import com.jountain.demo.dto.OrderItemDto;
 import com.jountain.demo.enums.OrderStatus;
 import com.jountain.demo.exceptions.ResourceNotFoundException;
 import com.jountain.demo.model.Cart;
@@ -20,7 +19,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor

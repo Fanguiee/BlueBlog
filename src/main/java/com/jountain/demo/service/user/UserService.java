@@ -17,9 +17,8 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     @Override
-    public UserDto getUserById(Long userId) {
+    public User getUserById(Long userId) {
         return userRepository.findById(userId)
-                .map(this::convertUserToUserDto)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
