@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -26,7 +27,7 @@ public class Cart {
 
     @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonManagedReference
-    private Set<CartItem> items;
+    private Set<CartItem> items=new HashSet<>();
 
     private BigDecimal totalAmount=BigDecimal.ZERO;
 
