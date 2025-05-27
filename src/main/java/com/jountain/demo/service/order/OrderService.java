@@ -1,5 +1,7 @@
 package com.jountain.demo.service.order;
 
+import com.jountain.demo.dto.OrderDto;
+import com.jountain.demo.dto.OrderItemDto;
 import com.jountain.demo.enums.OrderStatus;
 import com.jountain.demo.exceptions.ResourceNotFoundException;
 import com.jountain.demo.model.Cart;
@@ -71,13 +73,18 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Order getOrder(Long orderId) {
+    public OrderDto getOrder(Long orderId) {
         return orderRepository.findById(orderId)
+                .map(this::convertOrderToDto)
                 .orElseThrow(()->new ResourceNotFoundException("No Order found"));
     }
 
     @Override
-    public List<Order> getUserOrders(Long userId){
-        return orderRepository.findByUserId(userId);
+    public List<OrderDto> getUserOrders(Long userId){
+        return orderRepository.findByUserId(userId).stream().map(this::convertOrderToDto).toList();
+    }
+
+    public OrderDto convertOrderToDto(Order order){
+        return modelMapper.map(order, OrderDto.class);
     }
 }

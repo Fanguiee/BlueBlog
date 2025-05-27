@@ -1,5 +1,6 @@
 package com.jountain.demo.service.order;
 
+import com.jountain.demo.dto.OrderDto;
 import com.jountain.demo.model.Cart;
 import com.jountain.demo.model.Order;
 import com.jountain.demo.model.OrderItem;
@@ -10,7 +11,6 @@ import java.util.Set;
 
 public interface IOrderService {
     Order placeOrder(Long userId);
-    Order getOrder(Long orderId);
-
-    List<Order> getUserOrders(Long userId);
+    OrderDto getOrder(Long orderId);
+    List<OrderDto> getUserOrders(Long userId);
 }

@@ -1,5 +1,6 @@
 package com.jountain.demo.controller;
 
+import com.jountain.demo.dto.OrderDto;
 import com.jountain.demo.model.Cart;
 import com.jountain.demo.model.Order;
 import com.jountain.demo.response.ApiResponse;
@@ -33,8 +34,8 @@ public class OrderController {
     @GetMapping("/{orderId}/order")
     public ResponseEntity<ApiResponse> getOrderById(@PathVariable Long orderId) {
         try {
-            Order order = orderService.getOrder(orderId);
-            return ResponseEntity.ok(new ApiResponse("Get Order Success", order));
+            OrderDto orderDto = orderService.getOrder(orderId);
+            return ResponseEntity.ok(new ApiResponse("Get Order Success", orderDto));
         }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse(e.getMessage(), null));
@@ -44,8 +45,8 @@ public class OrderController {
     @GetMapping("/{userId}/user-oders")
     public ResponseEntity<ApiResponse> getUserOrders(@PathVariable Long userId) {
         try {
-            List<Order> orders = orderService.getUserOrders(userId);
-            return ResponseEntity.ok(new ApiResponse("Get User Orders", orders));
+            List<OrderDto> orderDtos = orderService.getUserOrders(userId);
+            return ResponseEntity.ok(new ApiResponse("Get User Orders", orderDtos));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), e));
         }
