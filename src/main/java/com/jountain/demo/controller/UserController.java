@@ -1,5 +1,6 @@
 package com.jountain.demo.controller;
 
+import com.jountain.demo.dto.UserDto;
 import com.jountain.demo.exceptions.AlreadyExistsException;
 import com.jountain.demo.exceptions.ResourceNotFoundException;
 import com.jountain.demo.model.User;
@@ -25,8 +26,8 @@ public class UserController {
     @GetMapping("/{userId}/user")
     public ResponseEntity<ApiResponse> getUser(@PathVariable Long userId){
         try {
-            User user = userService.getUserById(userId);
-            return ResponseEntity.ok(new ApiResponse("Get User Success", user));
+            UserDto userDto = userService.getUserById(userId);
+            return ResponseEntity.ok(new ApiResponse("Get User Success", userDto));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
         }

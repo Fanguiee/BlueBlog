@@ -1,5 +1,6 @@
 package com.jountain.demo.service.user;
 
+import com.jountain.demo.dto.UserDto;
 import com.jountain.demo.exceptions.AlreadyExistsException;
 import com.jountain.demo.exceptions.ResourceNotFoundException;
 import com.jountain.demo.model.User;
@@ -7,18 +8,19 @@ import com.jountain.demo.repository.UserRepository;
 import com.jountain.demo.request.UserCreateRequest;
 import com.jountain.demo.request.UserUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.OptionalInt;
 
 @Service
 @RequiredArgsConstructor
 public class UserService implements IUserService {
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
     @Override
-    public User getUserById(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    public UserDto getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .map(this::convertUserToUserDto)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     @Override
@@ -63,5 +65,10 @@ public class UserService implements IUserService {
         userRepository.findById(userId)
                 .ifPresentOrElse(userRepository::delete,
                 () -> {throw new ResourceNotFoundException("User not found");});
+    }
+
+    @Override
+    public UserDto convertUserToUserDto(User user) {
+        return modelMapper.map(user, UserDto.class);
     }
 }
