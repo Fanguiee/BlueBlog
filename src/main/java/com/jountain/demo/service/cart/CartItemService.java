@@ -1,6 +1,5 @@
 package com.jountain.demo.service.cart;
 
-import com.jountain.demo.exceptions.ResourceNotFoundException;
 import com.jountain.demo.model.Cart;
 import com.jountain.demo.model.CartItem;
 import com.jountain.demo.model.Product;
@@ -9,8 +8,6 @@ import com.jountain.demo.repository.CartRepository;
 import com.jountain.demo.service.product.IProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
@@ -22,10 +19,13 @@ public class CartItemService implements ICartItemService {
 
     @Override
     public void addItemToCart(Long cartId, Long productId, int quantity) {
-        //1.get the cart
-        //2.look for the product
-        //3.if product not in the cart, add it
-        //4.if product already in the cart, update the quantity and totalPrice
+        //1. check product exists
+        //2. update product inventory
+        //if inventory not enough, break
+        //3.look for the product in the cart
+        //if product not in the cart, add it
+        //if product already in the cart, update the quantity and totalPrice
+
         Cart cart = cartService.getCart(cartId);
         Product product = productService.getProductById(productId);
         CartItem cartItem = getItemInCart(cartId, productId);
@@ -42,6 +42,9 @@ public class CartItemService implements ICartItemService {
         cartItemRepository.save(cartItem);
         cart.addItem(cartItem);
         cartRepository.save(cart);
+
+        int newQuantity = product.getInventory()-quantity;
+        productService.updateProductQuantity(newQuantity, productId);
     }
 
     @Override
