@@ -1,5 +1,6 @@
 package com.jountain.demo.service.cart;
 
+import com.jountain.demo.exceptions.InsufficientInventoryException;
 import com.jountain.demo.model.Cart;
 import com.jountain.demo.model.CartItem;
 import com.jountain.demo.model.Product;
@@ -20,14 +21,16 @@ public class CartItemService implements ICartItemService {
     @Override
     public void addItemToCart(Long cartId, Long productId, int quantity) {
         //1. check product exists
-        //2. update product inventory
-        //if inventory not enough, break
+        //2. check product inventory
         //3.look for the product in the cart
         //if product not in the cart, add it
         //if product already in the cart, update the quantity and totalPrice
-
         Cart cart = cartService.getCart(cartId);
         Product product = productService.getProductById(productId);
+        int inventory = product.getInventory();
+        if(inventory < quantity) {
+            throw new InsufficientInventoryException("Insufficient inventory");
+        }
         CartItem cartItem = getItemInCart(cartId, productId);
         if (cartItem== null) {
             cartItem = new CartItem();
@@ -42,9 +45,6 @@ public class CartItemService implements ICartItemService {
         cartItemRepository.save(cartItem);
         cart.addItem(cartItem);
         cartRepository.save(cart);
-
-        int newQuantity = product.getInventory()-quantity;
-        productService.updateProductQuantity(newQuantity, productId);
     }
 
     @Override
