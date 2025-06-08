@@ -19,7 +19,6 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RequiredArgsConstructor
 public class CartController {
     private final ICartService cartService;
-    private final CartRepository cartRepository;
 
     @GetMapping("/{cartId}/cart")
     public ResponseEntity<ApiResponse> getCart(@PathVariable Long cartId) {
@@ -34,7 +33,7 @@ public class CartController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<ApiResponse> getCartByUserId(@PathVariable Long userId) {
         try {
-            Cart cart = cartRepository.findByUserId(userId);
+            Cart cart = cartService.getCartByUserId(userId);
             return ResponseEntity.ok(new ApiResponse("Get Cart by user id Success",cart));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),null));

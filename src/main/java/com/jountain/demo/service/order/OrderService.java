@@ -39,6 +39,7 @@ public class OrderService implements IOrderService {
         System.out.println("the set:"+new HashSet<>(orderItems));
         order.setItems(new HashSet<>(orderItems));
         order.setTotalAmount(calculateTotalPrice(orderItems));
+        cartService.clearCart(cart.getId());
         return orderRepository.save(order);
     }
 
@@ -52,8 +53,6 @@ public class OrderService implements IOrderService {
         System.out.println("Before save: " + order.getTotalAmount());
         Order savedOrder = orderRepository.save(order);
         System.out.println("After save: " + savedOrder.getTotalAmount());
-
-        cartService.clearCart(cart.getId());
         return savedOrder;
     }
 
