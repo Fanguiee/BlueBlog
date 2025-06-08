@@ -36,7 +36,6 @@ public class OrderService implements IOrderService {
         Order order=createOrder(cart);
         //set orderItems
         List<OrderItem> orderItems=createOrderItems(order,cart);
-        System.out.println("the set:"+new HashSet<>(orderItems));
         order.setItems(new HashSet<>(orderItems));
         order.setTotalAmount(calculateTotalPrice(orderItems));
         cartService.clearCart(cart.getId());
@@ -49,10 +48,7 @@ public class OrderService implements IOrderService {
         order.setDate(LocalDate.now());
         order.setStatus(OrderStatus.PENDING);
         order.setUser(cart.getUser());
-        order.setTotalAmount(cart.getTotalAmount());
-        System.out.println("Before save: " + order.getTotalAmount());
         Order savedOrder = orderRepository.save(order);
-        System.out.println("After save: " + savedOrder.getTotalAmount());
         return savedOrder;
     }
 
@@ -84,9 +80,12 @@ public class OrderService implements IOrderService {
 
     @Override
     public List<OrderDto> getUserOrders(Long userId){
-        return orderRepository.findByUserId(userId).stream().map(this::convertOrderToDto).toList();
+        return orderRepository.findByUserId(userId)
+                .stream()
+                .map(this::convertOrderToDto)
+                .toList();
     }
-
+    @Override
     public OrderDto convertOrderToDto(Order order){
         return modelMapper.map(order, OrderDto.class);
     }
