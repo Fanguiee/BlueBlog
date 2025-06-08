@@ -2,9 +2,10 @@ package com.jountain.demo.dto;
 
 
 import com.jountain.demo.model.Cart;
+import lombok.Data;
 
 import java.util.List;
-
+@Data
 public class UserDto {
     private Long id;
     private String firstName;

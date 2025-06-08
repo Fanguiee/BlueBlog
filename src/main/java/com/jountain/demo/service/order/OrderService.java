@@ -32,8 +32,11 @@ public class OrderService implements IOrderService {
     @Override
     public Order placeOrder(Long userId) {
         Cart cart=cartService.getCartByUserId(userId);
+        //set user,date,status for the cart
         Order order=createOrder(cart);
+        //set orderItems
         List<OrderItem> orderItems=createOrderItems(order,cart);
+        System.out.println("the set:"+new HashSet<>(orderItems));
         order.setItems(new HashSet<>(orderItems));
         order.setTotalAmount(calculateTotalPrice(orderItems));
         return orderRepository.save(order);
@@ -45,7 +48,10 @@ public class OrderService implements IOrderService {
         order.setDate(LocalDate.now());
         order.setStatus(OrderStatus.PENDING);
         order.setUser(cart.getUser());
+        order.setTotalAmount(cart.getTotalAmount());
+        System.out.println("Before save: " + order.getTotalAmount());
         Order savedOrder = orderRepository.save(order);
+        System.out.println("After save: " + savedOrder.getTotalAmount());
 
         cartService.clearCart(cart.getId());
         return savedOrder;

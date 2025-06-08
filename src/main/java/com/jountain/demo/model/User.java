@@ -22,6 +22,7 @@ public class User {
     private String lastName;
     @NaturalId
     private String email;
+    @JsonIgnore
     private String password;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -21,25 +21,29 @@ public class CartItemService implements ICartItemService {
     @Override
     public void addItemToCart(Long cartId, Long productId, int quantity) {
         //1. check product exists
-        //2. check product inventory
-        //3.look for the product in the cart
-        //if product not in the cart, add it
-        //if product already in the cart, update the quantity and totalPrice
+        //2.look for the product in the cart
+        //if product not in the cart,check inventory, add it
+        //if product already in the cart,check inventory, update the quantity and totalPrice
         Cart cart = cartService.getCart(cartId);
         Product product = productService.getProductById(productId);
         int inventory = product.getInventory();
-        if(inventory < quantity) {
-            throw new InsufficientInventoryException("Insufficient inventory");
-        }
+
         CartItem cartItem = getItemInCart(cartId, productId);
         if (cartItem== null) {
+            if(inventory < quantity) {
+                throw new InsufficientInventoryException("Insufficient inventory");
+            }
             cartItem = new CartItem();
             cartItem.setProduct(product);
             cartItem.setQuantity(quantity);
             cartItem.setCart(cart);
             cartItem.setUnitPrice(product.getPrice());
         }else {
-            cartItem.setQuantity(quantity+cartItem.getQuantity());
+            int newQuantity = cartItem.getQuantity() + quantity;
+            if(inventory < newQuantity) {
+                throw new InsufficientInventoryException("Insufficient inventory");
+            }
+            cartItem.setQuantity(newQuantity);
         }
         cartItem.setTotalPrice();
         cartItemRepository.save(cartItem);

@@ -1,5 +1,6 @@
 package com.jountain.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,7 +27,7 @@ public class Cart {
     private User user;
 
     @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,orphanRemoval = true)
-    @JsonManagedReference
+    @JsonIgnore
     private Set<CartItem> items=new HashSet<>();
 
     private BigDecimal totalAmount=BigDecimal.ZERO;

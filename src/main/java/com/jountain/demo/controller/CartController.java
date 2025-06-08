@@ -2,6 +2,7 @@ package com.jountain.demo.controller;
 
 import com.jountain.demo.exceptions.ResourceNotFoundException;
 import com.jountain.demo.model.Cart;
+import com.jountain.demo.repository.CartRepository;
 import com.jountain.demo.response.ApiResponse;
 import com.jountain.demo.service.cart.CartItemService;
 import com.jountain.demo.service.cart.ICartService;
@@ -18,13 +19,23 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RequiredArgsConstructor
 public class CartController {
     private final ICartService cartService;
-    private final CartItemService cartItemService;
+    private final CartRepository cartRepository;
 
     @GetMapping("/{cartId}/cart")
     public ResponseEntity<ApiResponse> getCart(@PathVariable Long cartId) {
         try {
             Cart cart = cartService.getCart(cartId);
-            return ResponseEntity.ok(new ApiResponse("Success",cart));
+            return ResponseEntity.ok(new ApiResponse("Get Cart Success",cart));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
+        }
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ApiResponse> getCartByUserId(@PathVariable Long userId) {
+        try {
+            Cart cart = cartRepository.findByUserId(userId);
+            return ResponseEntity.ok(new ApiResponse("Get Cart by user id Success",cart));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
