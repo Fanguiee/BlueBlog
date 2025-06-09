@@ -35,8 +35,6 @@ public class CartService implements ICartService {
         cartItemRepository.deleteAllByCartId(id);
         cart.getItems().clear();
         cart.setTotalAmount(BigDecimal.ZERO);
-        cart.setUser(null);
-        cartRepository.deleteById(id);
     }
 
     @Override
