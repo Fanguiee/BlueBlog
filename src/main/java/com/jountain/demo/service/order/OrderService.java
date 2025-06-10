@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class OrderService implements IOrderService {
 
     private Order createOrder(Cart cart){
         Order order = new Order();
-        order.setDate(LocalDate.now());
+        order.setTime(LocalDateTime.now());
         order.setStatus(OrderStatus.PENDING);
         order.setUser(cart.getUser());
         Order savedOrder = orderRepository.save(order);
@@ -59,7 +60,7 @@ public class OrderService implements IOrderService {
                     Product product=item.getProduct();
                     product.setInventory(product.getInventory()-item.getQuantity());
                     productRepository.save(product);
-                    return new OrderItem(order,product,item.getQuantity(),product.getPrice());
+                    return new OrderItem(order,product,item.getQuantity(),product.getPrice(),product.getBrand());
                 })
                 .toList();
     }

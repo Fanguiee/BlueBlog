@@ -20,6 +20,7 @@ public class OrderItem {
 
     private int quantity;
     private BigDecimal price;
+    private String brand;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -29,10 +30,11 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    public OrderItem(Order order, Product product,int quantity, BigDecimal price) {
+    public OrderItem(Order order, Product product,int quantity, BigDecimal price,String brand) {
         this.order = order;
         this.product = product;
         this.quantity = quantity;
         this.price = price;
+        this.brand = brand;
     }
 }
