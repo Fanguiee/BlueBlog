@@ -32,7 +32,7 @@ public class ProductService implements IProductService {
         String brand = request.getBrand();
         String name = request.getName();
         if(productRepository.existsByBrandAndName(brand,name))
-            throw new AlreadyExistsException("Product with brand "+brand+",name " + name + " already exists");
+            throw new AlreadyExistsException("Product with brand "+brand+",name " + name + " already exists, you may update it instead.");
         // check if the category is found in the DB
         // If Yes, set it as the new product category
         // If No, the save it as a new category
