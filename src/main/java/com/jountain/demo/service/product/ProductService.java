@@ -2,6 +2,7 @@ package com.jountain.demo.service.product;
 
 import com.jountain.demo.dto.ImageDto;
 import com.jountain.demo.dto.ProductDto;
+import com.jountain.demo.exceptions.AlreadyExistsException;
 import com.jountain.demo.exceptions.ResourceNotFoundException;
 import com.jountain.demo.model.Category;
 import com.jountain.demo.model.Image;
@@ -27,6 +28,11 @@ public class ProductService implements IProductService {
 
     @Override
     public Product addProduct(ProductAddRequest request) {
+        //if Product name exists,throw exception
+        String brand = request.getBrand();
+        String name = request.getName();
+        if(productRepository.existsByBrandAndName(brand,name))
+            throw new AlreadyExistsException("Product with brand "+brand+",name " + name + " already exists");
         // check if the category is found in the DB
         // If Yes, set it as the new product category
         // If No, the save it as a new category
@@ -66,15 +72,6 @@ public class ProductService implements IProductService {
                         () -> {throw new ResourceNotFoundException("Product not found!");});
     }
 
-    @Override
-    public void updateProductQuantity(int quantity, Long productId) {
-        productRepository.findById(productId)
-                .map((product -> {
-                    product.setInventory(quantity);
-                    return productRepository.save(product);
-                }))
-                .orElseThrow(()-> new ResourceNotFoundException("Product not found!"));;
-    }
 
     @Override
     public Product updateProduct(ProductUpdateRequest request, Long productId) {
