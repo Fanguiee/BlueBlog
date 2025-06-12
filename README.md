@@ -40,4 +40,4 @@ Feel free to reach out if you're interested in working together or want to know 
 Thanks for stopping by! 😊
 
 💾 Database
-![EER of shop.png](../../../../Downloads/EER%20of%20shop.png)
+![EER of shop.png](src/main/resources/img/EER_of_shop.png)
