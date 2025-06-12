@@ -28,6 +28,9 @@ A hands-on project to demonstrate my skills as a Java Backend Developer 💻🚀
 
     🧹 Clean code, well-structured and documented
 
+💾 Database
+![EER of shop.png](src/main/resources/img/EER_of_shop.png)
+
 I'm actively looking for a position as a Java/Spring Boot Developer.
 This project showcases my ability to build backend systems from scratch, following best practices and a clean architecture approach.
 
@@ -38,6 +41,3 @@ git clone https://github.com/Fanguiee/Shop-Spring-Boot
 📫 Get in Touch
 Feel free to reach out if you're interested in working together or want to know more.
 Thanks for stopping by! 😊
-
-💾 Database
-![EER of shop.png](src/main/resources/img/EER_of_shop.png)
