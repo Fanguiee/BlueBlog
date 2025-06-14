@@ -1,22 +1,26 @@
-package com.jountain.demo;
+package com.jountain.demo.security.config;
 
+import com.jountain.demo.security.jwt.JwtAuthEntryPoint;
+import com.jountain.demo.security.user.ShopUserDetailsService;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig {
+@RequiredArgsConstructor
+public class ShopConfig {
+    private final ShopUserDetailsService shopUserDetailsService;
+    private final JwtAuthEntryPoint jwtAuthEntryPoint;
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
