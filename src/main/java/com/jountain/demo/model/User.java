@@ -36,7 +36,7 @@ public class User {
     private List<Order> orders;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade =
-            {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
+            {CascadeType.DETACH, CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id"))
     private Collection<Role> roles=new HashSet<>();
